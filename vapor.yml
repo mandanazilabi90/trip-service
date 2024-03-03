@@ -1,35 +1,15 @@
-id: 58524
-name: FlightHub
+id: 58548
+name: my-application
 environments:
-  production:
-      memory: 1024
-      cli-memory: 512
-      runtime: 'php-8.3:al2'
-      region: 'ca-central-1'
-      databases:
-        - redis: true
-        - mysql:
-            region: ca-central-1
-      build:
-        - 'composer install --no-dev'
-        - 'php artisan event:cache'
-        deploy:
-          - 'php artisan migrate --force'
-          - 'php artisan db:seed --force'
-      env:
-        APP_NAME: flighthub
-        APP_ENV: production
-        APP_KEY: base64:uNsuHytALZfkIUcmp+hdNopS6hVYGOOIb5Udhmg8F2Y=
-        APP_DEBUG: false
-        APP_URL: https://etlesgib75534rh6alyf4bwmsy0ugufu.lambda-url.ca-central-1.on.aws/
-        MYSQL_ATTR_SSL_CA: /var/task/rds-combined-ca-bundle.pem
-        DB_CONNECTION: mysql
-        DB_HOST: flighthub.chc8aaswgmtl.ca-central-1.rds.amazonaws.com
-        DB_PORT: 3306
-        DB_DATABASE: flighthub
-        DB_USERNAME: vapor
-        DB_PASSWORD: oHy3OtXzgAlhS1VIqHNWljHmfGqCrM1DXMDSqZ2f
+    production:
+        memory: 1024
+        cli-memory: 512
+        runtime: 'php-8.3:al2'
+        database: flighthub
+        build:
+            - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
+            - 'php artisan event:cache'
 
-      #    REDIS_HOST: 127.0.0.1
-      #    REDIS_PASSWORD: null
-      #    REDIS_PORT: 6379
+        deploy:
+            - 'php artisan migrate --force'
+            - 'php artisan db:seed --force'
