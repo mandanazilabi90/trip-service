@@ -14,8 +14,12 @@ use Illuminate\Http\Request;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 //user search
-//Route::post('/trip/search', [TripController::class, 'searchTrip'])->name('trip.search.submit');
+Route::get('/', function () {
+    return view('welcome');
+});
+
 Route::get('/trip/search', [TripController::class, 'search'])->name('trip.search');
 Route::get('/trip/list', [TripController::class, 'list'])->name('trip.search.list');
 Route::post('/trip/search/list', [TripController::class, 'searchTrip'])->name('trip.search.submit');
