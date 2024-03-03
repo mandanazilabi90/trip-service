@@ -11,11 +11,11 @@ environments:
         - mysql:
             region: ca-central-1
       build:
-        build:
-          - 'composer install --no-dev --optimize-autoloader'
+        - 'composer install --no-dev'
+        - 'php artisan event:cache'
+        deploy:
           - 'php artisan migrate --force'
           - 'php artisan db:seed --force'
-
       env:
         APP_NAME: flighthub
         APP_ENV: production

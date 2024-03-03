@@ -12,7 +12,7 @@ environments:
             region: ca-central-1
       build:
         build:
-        
+          - 'composer install --no-dev --optimize-autoloader'
           - 'php artisan migrate --force'
           - 'php artisan db:seed --force'
 
