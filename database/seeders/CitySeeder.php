@@ -17,7 +17,7 @@ class CitySeeder extends Seeder
     {
         $cities = [
             // United States
-            ['id' => 1, 'name' => 'New York City', 'iata_code' => 'NYC', 'country_id' => 1 ],
+            ['id' => 1, 'name' => 'New York City', 'iata_code' => 'NYC', 'country_id' => 1],
             ['id' => 2,'name' => 'Los Angeles', 'iata_code' => 'LAX', 'country_id' => 1 ],
             ['id' => 3,'name' => 'Chicago', 'iata_code' => 'CHI', 'country_id' => 1 ],
             ['id' => 4,'name' => 'Houston', 'iata_code' => 'HOU', 'country_id' => 1 ],

@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
             RegionSeeder::class,
             CitySeeder::class,
             AirlineSeeder::class,
-//            AirportSeeder::class,
+            AirportSeeder::class,
             FlightSeeder::class,
         ]);
     }
