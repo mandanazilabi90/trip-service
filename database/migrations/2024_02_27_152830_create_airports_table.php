@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('iata_code', 3)->unique();
             $table->unsignedBigInteger('city_id');
             $table->foreign('city_id')->references('id')->on('cities');
-            $table->geometry('location');
+            $table->geometry('location')->nullable();;
             $table->string('timezone');
             $table->timestamps();
         });
