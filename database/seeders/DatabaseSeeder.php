@@ -25,10 +25,10 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
         $this->call([
-//            CountrySeeder::class,
-//            RegionSeeder::class,
-//            CitySeeder::class,
-//            AirlineSeeder::class,
+            CountrySeeder::class,
+            RegionSeeder::class,
+            CitySeeder::class,
+            AirlineSeeder::class,
 //            AirportSeeder::class,
             FlightSeeder::class,
         ]);

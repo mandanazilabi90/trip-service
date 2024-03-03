@@ -9,13 +9,12 @@ class Country extends Model
 {
     use HasFactory;
     protected $table = 'countries';
-    public function city()
+    public function cities()
     {
         return $this->HasMany(City::class, 'country_id');
     }
-    public function country()
+    public function regions()
     {
         return $this->HasMany(Region::class, 'country_id');
     }
-
 }
