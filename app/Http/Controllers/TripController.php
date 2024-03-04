@@ -43,27 +43,37 @@ class TripController extends Controller
     {
         return $this->tripService->getTripList($searchId);
     }
-
     public function list(Request $request)
     {
         $this->validateRequest($request);
+        $trips =  $this->fetchData($request);
 
+        return view('list')->with('trips',$trips);
+    }
+    public function fetchData(Request $request)
+    {
         if (!empty(session('trips'))) {
-            $trips = session('trips');
-        } else {
-//            $trips = $this->getListFromRedis($request->input('search_id'));
-            $trips = Trip::filter($request->all());
-            if($trips->isEmpty())
+            return session('trips');
+        }
+        //check if its in Redis
+        $trips = $this->getListFromRedis($request->input('search_id'));
+
+        if (empty($trips)) {
+            $trips = Trip::filter($request->all())->toArray();
+            if(empty($trips))
             {
-                return view('list')->withErrors(['search_error' => 'No trips found. Please try again.']);
+                return redirect()->back()->withErrors(['search_error' => 'No trips found. Please try again.']);
             }
             // Save trips to Redis
-//            $this->tripService->saveSearch($trips->toArray(), $request->input('search_id'));
+            $this->tripService->saveSearch($trips, $request->input('search_id'));
+        }else{
+            foreach ($trips as &$value) {
+                $value = json_decode($value, true);
+            }
         }
 
-        return view('list')->with('trips', $trips);
+        return $trips;
     }
-
     private function validateRequest(Request $request)
     {
         $request->validate([
@@ -106,16 +116,7 @@ class TripController extends Controller
 
         // Generate a search ID and retrieve trips from Redis or the database
         $searchId = $this->tripService->hashSearchParameters($request->except('_token'));
-//        $trips = $this->getListFromRedis($searchId);
-
-        $trips = Trip::filter($request->all());
-
-        if($trips->isEmpty())
-        {
-            return redirect()->back()->withErrors(['search_error' => 'No trips found. Please try again.']);
-        }
-        //Save to Redis
-//        $this->tripService->saveSearch($trips->toArray(), $searchId);
+        $trips = $this->fetchData($request);
         $request['search_id'] = $searchId;
         return redirect()->route('trip.search.list', $request->except('_token'))->with('trips', $trips);
     }

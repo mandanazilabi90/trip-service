@@ -15,7 +15,7 @@ environments:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
 
-        deploy:
-          - 'php artisan migrate:fresh --force'
-          - 'php artisan migrate --force'
-          - 'php artisan db:seed --force'
+#        deploy:
+#          - 'php artisan migrate:fresh --force'
+#          - 'php artisan migrate --force'
+#          - 'php artisan db:seed --force'

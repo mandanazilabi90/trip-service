@@ -34,24 +34,26 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <strong>Departure Airport:</strong> {{ $trip->departureAirport->name }}<br>
-                                <strong>Arrival Airport:</strong> {{ $trip->arrivalAirport->name }}<br>
-                                <strong>Departure Time:</strong> {{ $trip->departure_time }}<br>
-                                <strong>Arrival Time:</strong> {{ $trip->arrival_time }}<br>
-                                <strong>Trip Type:</strong> {{$trip->type}}<br>
-                                <strong>Total Price:</strong> {{!empty($trip->sum_of_prices) ? $trip->sum_of_prices : $trip->flights[0]->price}}<br>
+
+                                <strong>Departure Airport:</strong> {{ $trip['departure_airport']['name'] }}<br>
+                                <strong>Arrival Airport:</strong> {{ $trip['arrival_airport']['name'] }}<br>
+                                <strong>Departure Time:</strong> {{ $trip['departure_time'] }}<br>
+                                <strong>Arrival Time:</strong> {{ $trip['arrival_time'] }}<br>
+                                <strong>Trip Type:</strong> {{$trip['type']}}<br>
+                                <strong>Total Price:</strong> {{!empty($trip['sum_of_prices']) ? $trip['sum_of_prices'] : $trip['flights'][0]['price']}}<br>
                             </div>
                             <div class="col-md-6">
                                 <h5>Flights Details</h5>
                                 <ul class="list-unstyled">
-                                    @foreach($trip->flights as $index=>$flight)
-                                        <li>Flight Number: {{ $flight->flight_number }}</li>
-                                        <li>From: {{ $flight->departureAirport->name }}</li>
-                                        <li>To: {{ $flight->arrivalAirport->name }}</li>
-                                        <li>Flight Departure Time: {{ explode(' ', $flight->departure_time)[1]."(".$flight->departureAirport->timezone.")" }}</li>
-                                        <li>Flight Arrival Time: {{explode(' ', $flight->arrival_time)[1]. "(".$flight->arrivalAirport->timezone. ")"}}</li>
-                                        <li>Flight Price: {{ $flight->price }}</li>
-                                        @if($index < count($trip->flights) - 1)
+                                    @foreach($trip['flights'] as $index=>$flight)
+                                        <li>Flight Number: {{ $flight['flight_number'] }}</li>
+
+                                        <li>From: {{ $flight['departure_airport']['name'] }}</li>
+                                        <li>To: {{ $flight['arrival_airport']['name'] }}</li>
+                                        <li>Flight Departure Time: {{ explode(' ', $flight['departure_time'])[1]."(".$flight['departure_airport']['timezone'].")" }}</li>
+                                        <li>Flight Arrival Time: {{explode(' ', $flight['arrival_time'])[1]. "(".$flight['arrival_airport']['timezone']. ")"}}</li>
+                                        <li>Flight Price: {{ $flight['price'] }}</li>
+                                        @if($index < count($trip['flights']) - 1)
                                             <hr>
                                         @endif
                                     @endforeach
