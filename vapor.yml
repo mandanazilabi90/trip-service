@@ -6,9 +6,7 @@ environments:
         cli-memory: 512
         runtime: 'php-8.3:al2'
         database: flighthub
-        databases:
-            redis:
-              - provider: flighthub-redis
+        cache: flighthub-redis
         build:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'

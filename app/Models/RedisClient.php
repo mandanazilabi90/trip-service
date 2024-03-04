@@ -10,7 +10,7 @@ class RedisClient extends Model
 {
     use HasFactory;
     protected $client;
-
+    protected $parameters;
     public function __construct($parameters = [])
     {
         $this->client = new Client($parameters);

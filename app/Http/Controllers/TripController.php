@@ -45,9 +45,13 @@ class TripController extends Controller
     }
     public function list(Request $request)
     {
+
         $this->validateRequest($request);
         $trips =  $this->fetchData($request, $request['search_id']);
-
+        if(empty($trips))
+        {
+            return redirect()->route('trip.search')->withErrors(['search_error' => 'No trips found. Please try again.']);;
+        }
         return view('list')->with('trips',$trips);
     }
     public function fetchData(Request $request, $searchId)
@@ -63,7 +67,7 @@ class TripController extends Controller
 
             if(empty($trips))
             {
-                return redirect()->back()->withErrors(['search_error' => 'No trips found. Please try again.']);
+                return [];
             }
             // Save trips to Redis
             $this->tripService->saveSearch($trips, $searchId);
@@ -78,6 +82,7 @@ class TripController extends Controller
             $trips = $hashFields;
 
         }
+
         return $trips;
     }
     private function validateRequest(Request $request)
@@ -125,6 +130,10 @@ class TripController extends Controller
         $searchId = $this->tripService->hashSearchParameters($request->except('_token'));
 
         $trips = $this->fetchData($request, $searchId);
+        if(empty($trips))
+        {
+            return redirect()->route('trip.search')->withErrors(['search_error' => 'No trips found. Please try again.']);
+        }
         $request['search_id'] = $searchId;
         return redirect()->route('trip.search.list', $request->except('_token'))->with('trips', $trips);
     }
