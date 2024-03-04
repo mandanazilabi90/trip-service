@@ -4,6 +4,7 @@
 /public/storage
 /storage/*.key
 /vendor
+!/vendor/predis/predis/src/Connection/Parameters.php
 .env
 .env.backup
 .env.production
