@@ -60,7 +60,7 @@ class TripController extends Controller
             return session('trips');
         }
         //check if its in Redis
-        $trips = $this->getListFromRedis($searchId);
+//        $trips = $this->getListFromRedis($searchId);
 
         if (empty($trips)) {
             $trips = Trip::filter($request->all())->toArray();
@@ -70,7 +70,7 @@ class TripController extends Controller
                 return [];
             }
             // Save trips to Redis
-            $this->tripService->saveSearch($trips, $searchId);
+//            $this->tripService->saveSearch($trips, $searchId);
         }else{
             $hashFields = [];
             foreach ($trips as $field => &$value) {
