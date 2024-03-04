@@ -11,6 +11,7 @@ environments:
               - provider: redis
                 memory: 512
                 replicas: 1
+                host: https://kegrhbczw4eu7y7iezjnerqcce0wrczi.lambda-url.us-east-1.on.aws
 
         build:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
