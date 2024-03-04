@@ -46,32 +46,38 @@ class TripController extends Controller
     public function list(Request $request)
     {
         $this->validateRequest($request);
-        $trips =  $this->fetchData($request);
+        $trips =  $this->fetchData($request, $request['search_id']);
 
         return view('list')->with('trips',$trips);
     }
-    public function fetchData(Request $request)
+    public function fetchData(Request $request, $searchId)
     {
         if (!empty(session('trips'))) {
             return session('trips');
         }
         //check if its in Redis
-        $trips = $this->getListFromRedis($request->input('search_id'));
+        $trips = $this->getListFromRedis($searchId);
 
         if (empty($trips)) {
             $trips = Trip::filter($request->all())->toArray();
+
             if(empty($trips))
             {
                 return redirect()->back()->withErrors(['search_error' => 'No trips found. Please try again.']);
             }
             // Save trips to Redis
-            $this->tripService->saveSearch($trips, $request->input('search_id'));
+            $this->tripService->saveSearch($trips, $searchId);
         }else{
-            foreach ($trips as &$value) {
-                $value = json_decode($value, true);
+            $hashFields = [];
+            foreach ($trips as $field => &$value) {
+                if (!is_array($value)) {
+                    $value = json_decode($value, true);
+                }
+                $hashFields[$field] = $value;
             }
-        }
+            $trips = $hashFields;
 
+        }
         return $trips;
     }
     private function validateRequest(Request $request)
@@ -112,11 +118,13 @@ class TripController extends Controller
     }
     public function searchTrip(Request $request)
     {
+
         $this->validateRequest($request);
 
         // Generate a search ID and retrieve trips from Redis or the database
         $searchId = $this->tripService->hashSearchParameters($request->except('_token'));
-        $trips = $this->fetchData($request);
+
+        $trips = $this->fetchData($request, $searchId);
         $request['search_id'] = $searchId;
         return redirect()->route('trip.search.list', $request->except('_token'))->with('trips', $trips);
     }

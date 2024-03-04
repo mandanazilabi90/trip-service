@@ -30,7 +30,7 @@ class Trip extends Model
         $upper_limit_trip = $date->addDays(365)->format('Y-m-d');
 
          return Trip::with([
-            'flights', 'departureAirport', 'arrivalAirport',
+            'flights', 'flights.departureAirport','flights.arrivalAirport','departureAirport', 'arrivalAirport',
             'departureAirport', 'arrivalAirport'])
             ->where('departure_airport_id', $data['departure'])
             ->where('arrival_airport_id', $data['arrival'])
