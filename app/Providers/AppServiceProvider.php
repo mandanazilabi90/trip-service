@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(RedisClient::class, function () {
             return new RedisClient([
                 'scheme' => 'tcp',
-                'host'   => '127.0.0.1',
+                'host'   => 'https://kegrhbczw4eu7y7iezjnerqcce0wrczi.lambda-url.us-east-1.on.aws',
                 'port'   => 6379,
             ]);
         });

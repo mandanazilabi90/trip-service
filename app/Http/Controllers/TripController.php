@@ -10,7 +10,7 @@ use Illuminate\View\View;
 
 use App\Services\TripService;
 use Illuminate\Http\RedirectResponse;
-use function PHPUnit\Framework\isEmpty;
+
 
 class TripController extends Controller
 {
