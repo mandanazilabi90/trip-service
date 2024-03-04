@@ -6,10 +6,16 @@ environments:
         cli-memory: 512
         runtime: 'php-8.3:al2'
         database: flighthub
+        databases:
+            redis:
+              - provider: redis
+                memory: 512
+                replicas: 1
         build:
             - 'COMPOSER_MIRROR_PATH_REPOS=1 composer install --no-dev'
             - 'php artisan event:cache'
 
         deploy:
-            - 'php artisan migrate --force'
-            - 'php artisan db:seed --force'
+          - 'php artisan migrate:fresh --force'
+          - 'php artisan migrate --force'
+          - 'php artisan db:seed --force'

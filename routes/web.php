@@ -17,7 +17,6 @@ use Illuminate\Http\Request;
 
 //user search
 Route::get('/', function () {
-    die('hello');
     return view('welcome');
 });
 

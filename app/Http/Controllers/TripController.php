@@ -58,7 +58,7 @@ class TripController extends Controller
                 return view('list')->withErrors(['search_error' => 'No trips found. Please try again.']);
             }
             // Save trips to Redis
-            $this->tripService->saveSearch($trips->toArray(), $request->input('search_id'));
+//            $this->tripService->saveSearch($trips->toArray(), $request->input('search_id'));
         }
 
         return view('list')->with('trips', $trips);
@@ -115,7 +115,7 @@ class TripController extends Controller
             return redirect()->back()->withErrors(['search_error' => 'No trips found. Please try again.']);
         }
         //Save to Redis
-        $this->tripService->saveSearch($trips->toArray(), $searchId);
+//        $this->tripService->saveSearch($trips->toArray(), $searchId);
         $request['search_id'] = $searchId;
         return redirect()->route('trip.search.list', $request->except('_token'))->with('trips', $trips);
     }
