@@ -40,9 +40,9 @@ class Trip extends Model
 //                ->orWhere('created_at', '<=', $upper_limit_trip);
 //            })
             ->when($data['type'] == 'round', function ($query) use ($data) {
-                return $query->where('arrival_time', $data['return']);
+                 $query->where('arrival_time', $data['return']);
+
             })
-             ->whereRaw("CONVERT_TZ(CONCAT(?, ' ', flights.departure_time), flights.departureAirport.timezone, 'UTC') >= CONVERT_TZ(CONCAT(?, ' ', CURTIME()), departureAirport.timezone, 'UTC')", [$data['depart'], $data['depart']])
              ->withSum('flights as sum_of_prices', 'price')
             ->get();
 
