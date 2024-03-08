@@ -63,12 +63,40 @@ class TripController extends Controller
 //        $trips = $this->getListFromRedis($searchId);
 
         if (empty($trips)) {
-            $trips = Trip::filter($request->all())->toArray();
+            switch ($request['type']) {
+                case 'oneway':
+                    $trips = Flight::filterOneWayTrip($request->all())->toArray();
+                    break;
+                case 'round':
+                    $trips = Flight::fliterRoundTrip($request->all())->toArray();
+                    foreach ($trips as $trip)
+                    {
+//                        $prepared_data[$trip['id']][] = $trip;
+                        $prepared_data[$trip['id'].$trip['detail_id']]['flights'][] = $trip;
 
+                    }
+                    break;
+                case 'openjaw':
+                    $trips = Flight::fliterOpenJawTrip($request->all())->toArray();
+                    $prepared_data = [];
+
+                    foreach ($trips as $trip)
+                    {
+//                        $prepared_data[$trip['id']][] = $trip;
+                        $prepared_data[$trip['id'].$trip['detail_id']]['flights'][] = $trip;
+
+                    }
+
+                    break;
+                default:
+                    return [];
+            }
+            $trips = $prepared_data;
             if(empty($trips))
             {
                 return [];
             }
+
             // Save trips to Redis
 //            $this->tripService->saveSearch($trips, $searchId);
         }else{
@@ -80,11 +108,11 @@ class TripController extends Controller
                 $hashFields[$field] = $value;
             }
             $trips = $hashFields;
-
         }
 
         return $trips;
     }
+
     private function validateRequest(Request $request)
     {
         $request->validate([
@@ -92,11 +120,27 @@ class TripController extends Controller
             'arrival' => 'required|integer',
             'depart' => 'required|date',
             'return' => 'nullable|date',
-            'type' => 'required|in:oneway,round',
+            'type' => 'required|in:oneway,round,openjaw',
             'search_id' => 'nullable|string',
         ]);
     }
 
+    public function searchTrip(Request $request)
+    {
+
+        $this->validateRequest($request);
+
+        // Generate a search ID and retrieve trips from Redis or the database
+        $searchId = $this->tripService->hashSearchParameters($request->except('_token'));
+
+        $trips = $this->fetchData($request, $searchId);
+        if(empty($trips))
+        {
+            return redirect()->route('trip.search')->withErrors(['search_error' => 'No trips found. Please try again.']);
+        }
+        $request['search_id'] = $searchId;
+        return redirect()->route('trip.search.list', $request->except('_token'))->with('trips', $trips);
+    }
     public function create(Request $request): RedirectResponse
     {
         $trip = Trip::create($request->except(['_token','flights']));
@@ -120,22 +164,6 @@ class TripController extends Controller
         $trip = Trip::find($id)->all();
         if($trip)  return response()->view('trip.view', $trip, 200);
         return redirect()->route('trip')->with('message', 'Trip Not Found')->setStatusCode(404);
-    }
-    public function searchTrip(Request $request)
-    {
-
-        $this->validateRequest($request);
-
-        // Generate a search ID and retrieve trips from Redis or the database
-        $searchId = $this->tripService->hashSearchParameters($request->except('_token'));
-
-        $trips = $this->fetchData($request, $searchId);
-        if(empty($trips))
-        {
-            return redirect()->route('trip.search')->withErrors(['search_error' => 'No trips found. Please try again.']);
-        }
-        $request['search_id'] = $searchId;
-        return redirect()->route('trip.search.list', $request->except('_token'))->with('trips', $trips);
     }
 
 }

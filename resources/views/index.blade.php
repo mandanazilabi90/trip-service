@@ -28,6 +28,7 @@
                                     <select id="flight_type" class="form-control" name="type">
                                         <option value="oneway">One-way</option>
                                         <option value="round">Round</option>
+                                        <option value="openjaw">Open-jaw</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
@@ -53,7 +54,7 @@
                                     <input type="date" class="form-control" id="depart" name="depart" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="return">Return Date For Round Trip:</label>
+                                    <label for="return">Return Date For Round And Open-jaw Trips:</label>
                                     <input type="date" class="form-control" id="return" name="return">
                                 </div>
                                 <div class="text-center">

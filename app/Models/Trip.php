@@ -24,26 +24,26 @@ class Trip extends Model
     {
         return $this->belongsTo(Airport::class, 'arrival_airport_id');
     }
-    public static function filter($data)
-    {
-        $date = Carbon::parse($data['depart']);
-        $upper_limit_trip = $date->addDays(365)->format('Y-m-d');
-
-         return Trip::with([
-            'flights', 'flights.departureAirport','flights.arrivalAirport','departureAirport', 'arrivalAirport',
-            'departureAirport', 'arrivalAirport'])
-            ->where('departure_airport_id', $data['departure'])
-            ->where('arrival_airport_id', $data['arrival'])
-             ->where('type', $data['type'])
-             ->where('departure_time', $data['depart'])
-//            ->where(function ($query) use ($data, $upper_limit_trip){
-//                $query->where('created_at', '<=', $data['depart'])
-//                ->orWhere('created_at', '<=', $upper_limit_trip);
-//            })
-            ->when($data['type'] == 'round', function ($query) use ($data) {
-                return $query->where('arrival_time', $data['return']);
-            })->withSum('flights as sum_of_prices', 'price')
-            ->get();
-
-    }
+//    public static function filter($data)
+//    {
+//        $date = Carbon::parse($data['depart']);
+//        $upper_limit_trip = $date->addDays(365)->format('Y-m-d');
+//
+//         return Trip::with([
+//            'flights', 'flights.departureAirport','flights.arrivalAirport','departureAirport', 'arrivalAirport',
+//            'departureAirport', 'arrivalAirport'])
+//            ->where('departure_airport_id', $data['departure'])
+//            ->where('arrival_airport_id', $data['arrival'])
+//             ->where('type', $data['type'])
+//             ->where('departure_time', $data['depart'])
+////            ->where(function ($query) use ($data, $upper_limit_trip){
+////                $query->where('created_at', '<=', $data['depart'])
+////                ->orWhere('created_at', '<=', $upper_limit_trip);
+////            })
+//            ->when($data['type'] == 'round', function ($query) use ($data) {
+//                return $query->where('arrival_time', $data['return']);
+//            })->withSum('flights as sum_of_prices', 'price')
+//            ->get();
+//
+//    }
 }

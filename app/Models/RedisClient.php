@@ -13,7 +13,11 @@ class RedisClient extends Model
     protected $parameters;
     public function __construct($parameters = [])
     {
-        $this->client = new Client($parameters);
+        $this->client = new Client([
+            'scheme' => 'tcp',
+            'host' => '127.0.0.1',
+            'port' => 6379,
+        ]);
     }
 
     public function getClient()
