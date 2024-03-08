@@ -30,8 +30,7 @@ class Trip extends Model
         $upper_limit_trip = $date->addDays(365)->format('Y-m-d');
 
          return Trip::with([
-            'flights', 'flights.departureAirport','flights.arrivalAirport','departureAirport', 'arrivalAirport',
-            'departureAirport', 'arrivalAirport'])
+            'flights', 'flights.departureAirport','flights.arrivalAirport','departureAirport', 'arrivalAirport'])
             ->where('departure_airport_id', $data['departure'])
             ->where('arrival_airport_id', $data['arrival'])
              ->where('type', $data['type'])
@@ -42,7 +41,9 @@ class Trip extends Model
 //            })
             ->when($data['type'] == 'round', function ($query) use ($data) {
                 return $query->where('arrival_time', $data['return']);
-            })->withSum('flights as sum_of_prices', 'price')
+            })
+             ->whereRaw("CONVERT_TZ(CONCAT(?, ' ', flights.departure_time), flights.departureAirport.timezone, 'UTC') >= CONVERT_TZ(CONCAT(?, ' ', CURTIME()), departureAirport.timezone, 'UTC')", [$data['depart'], $data['depart']])
+             ->withSum('flights as sum_of_prices', 'price')
             ->get();
 
     }

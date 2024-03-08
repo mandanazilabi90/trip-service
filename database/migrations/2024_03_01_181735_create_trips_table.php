@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('arrival_airport_id');
             $table->foreign('arrival_airport_id')->references('id')->on('airports');
             $table->date('departure_time');
-            $table->date('arrival_time');
+            $table->date('return_time');
             $table->enum('type', ['oneway', 'round'])->default('oneway');
             $table->timestamps();
         });

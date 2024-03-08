@@ -22,8 +22,8 @@ return new class extends Migration
             $table->foreign('departure_airport_id')->references('id')->on('airports');
             $table->unsignedBigInteger('arrival_airport_id');
             $table->foreign('arrival_airport_id')->references('id')->on('airports');
-            $table->dateTimeTz('departure_time');
-            $table->dateTimeTz('arrival_time');
+            $table->time('departure_time');
+            $table->time('arrival_time');
             $table->decimal('price', 10, 2);
             $table->timestamps();
         });
