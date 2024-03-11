@@ -41,7 +41,7 @@ class Flight extends Model
 //            ->whereRaw("CONVERT_TZ(CONCAT(?, ' ', flights.departure_time), departureAirport.timezone, 'UTC') >= CONVERT_TZ(CONCAT(?, ' ', CURTIME()), departureAirport.timezone, 'UTC')", [$data['depart'], $data['depart']])
             ->whereRaw("CONCAT(?, ' ', returnFlight.departure_time) > CONCAT(?, ' ', flights.arrival_time)", [$data['return'], $data['return']])
             ->whereRaw("CONVERT_TZ(CONCAT(?, ' ', flights.departure_time), departureAirport.timezone, 'UTC') < CONVERT_TZ(DATE_ADD(CONCAT(?, ' ', CURTIME()),INTERVAL 365 DAY), departureAirport.timezone, 'UTC')", [$data['depart'], $data['depart']])
-            
+
             ->select('flights.*',
                 'returnFlight.id as detail_id',
                 'returnFlight.flight_number as detail_flight_number',
