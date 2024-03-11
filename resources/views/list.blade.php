@@ -37,8 +37,8 @@
 
                                 <strong>Departure Airport:</strong> {{ $trip['departure_airport']['name'] }}<br>
                                 <strong>Arrival Airport:</strong> {{ $trip['arrival_airport']['name'] }}<br>
-{{--                                <strong>Departure Time:</strong> {{ $trip['departure_time'] }}<br>--}}
-{{--                                <strong>Return Time:</strong> {{ $trip['return_time'] }}<br>--}}
+                                <strong>Departure Time:</strong> {{ $trip['departure_time'] }}<br>
+                                <strong>Return Time:</strong> {{ $trip['return_time'] }}<br>
                                 <strong>Trip Type:</strong> {{$trip['type']}}<br>
                                 <strong>Total Price:</strong> {{!empty($trip['sum_of_prices']) ? $trip['sum_of_prices'] : $trip['flights'][0]['price']}}<br>
                             </div>
