@@ -36,6 +36,7 @@ class AirlineSeeder extends Seeder
             ['id' => 18,'name' => 'Swiss International Air Lines', 'iata_code' => 'LX'],
             ['id' => 19,'name' => 'Virgin Atlantic Airways', 'iata_code' => 'VS'],
             ['id' => 20,'name' => 'Southwest Airlines', 'iata_code' => 'WN'],
+            ['id' => 21,'name' => 'WestJet Airlines', 'iata_code' => 'WS'],
         ];
 
         DB::table('airlines')->insert($airlines);

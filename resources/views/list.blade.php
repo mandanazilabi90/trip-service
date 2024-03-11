@@ -37,8 +37,8 @@
 
                                 <strong>Departure Airport:</strong> {{ $trip['departure_airport']['name'] }}<br>
                                 <strong>Arrival Airport:</strong> {{ $trip['arrival_airport']['name'] }}<br>
-                                <strong>Departure Time:</strong> {{ $trip['departure_time'] }}<br>
-                                <strong>Arrival Time:</strong> {{ $trip['arrival_time'] }}<br>
+{{--                                <strong>Departure Time:</strong> {{ $trip['departure_time'] }}<br>--}}
+{{--                                <strong>Return Time:</strong> {{ $trip['return_time'] }}<br>--}}
                                 <strong>Trip Type:</strong> {{$trip['type']}}<br>
                                 <strong>Total Price:</strong> {{!empty($trip['sum_of_prices']) ? $trip['sum_of_prices'] : $trip['flights'][0]['price']}}<br>
                             </div>
@@ -50,8 +50,8 @@
 
                                         <li>From: {{ $flight['departure_airport']['name'] }}</li>
                                         <li>To: {{ $flight['arrival_airport']['name'] }}</li>
-                                        <li>Flight Departure Time: {{ explode(' ', $flight['departure_time'])[1]."(".$flight['departure_airport']['timezone'].")" }}</li>
-                                        <li>Flight Arrival Time: {{explode(' ', $flight['arrival_time'])[1]. "(".$flight['arrival_airport']['timezone']. ")"}}</li>
+                                        <li>Flight Departure Time: {{ $flight['departure_time']."(".$flight['departure_airport']['timezone'].")" }}</li>
+                                        <li>Flight Arrival Time: {{$flight['arrival_time']. "(".$flight['arrival_airport']['timezone']. ")"}}</li>
                                         <li>Flight Price: {{ $flight['price'] }}</li>
                                         @if($index < count($trip['flights']) - 1)
                                             <hr>
