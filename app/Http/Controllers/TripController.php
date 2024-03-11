@@ -69,29 +69,13 @@ class TripController extends Controller
                     break;
                 case 'round':
                     $trips = Flight::fliterRoundTrip($request->all())->toArray();
-                    foreach ($trips as $trip)
-                    {
-//                        $prepared_data[$trip['id']][] = $trip;
-                        $prepared_data[$trip['id'].$trip['detail_id']]['flights'][] = $trip;
-
-                    }
                     break;
                 case 'openjaw':
                     $trips = Flight::fliterOpenJawTrip($request->all())->toArray();
-                    $prepared_data = [];
-
-                    foreach ($trips as $trip)
-                    {
-//                        $prepared_data[$trip['id']][] = $trip;
-                        $prepared_data[$trip['id'].$trip['detail_id']]['flights'][] = $trip;
-
-                    }
-
                     break;
                 default:
                     return [];
             }
-            $trips = $prepared_data;
             if(empty($trips))
             {
                 return [];

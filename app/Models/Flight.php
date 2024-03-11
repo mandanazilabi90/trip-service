@@ -37,7 +37,7 @@ class Flight extends Model
             ->where('departureAirport.id', '=',$data['departure'])
             ->where('arrivalAirport.id', '=',$data['arrival'])
 //            ->whereRaw("CONVERT_TZ(CONCAT(?, ' ', flights.departure_time), departureAirport.timezone, 'UTC') >= CONVERT_TZ(CONCAT(?, ' ', CURTIME()), departureAirport.timezone, 'UTC')", [$data['depart'], $data['depart']])
-//            ->whereRaw("CONCAT(?, ' ', returnFlight.departure_time) > CONCAT(?, ' ', flights.arrival_time)", [$data['return'], $data['return']])
+            ->whereRaw("CONCAT(?, ' ', returnFlight.departure_time) > CONCAT(?, ' ', flights.arrival_time)", [$data['return'], $data['return']])
             ->select('flights.*',
                 'returnFlight.id as detail_id',
                 'returnFlight.flight_number as detail_flight_number',
@@ -59,11 +59,11 @@ class Flight extends Model
             ->join('airports as arrivalAirport', 'flights.arrival_airport_id', '=', 'arrivalAirport.id')
             ->where('departureAirport.id', '=',$data['departure'])
             ->where('arrivalAirport.id', '=',$data['arrival'])
-//            ->whereRaw("CONVERT_TZ(CONCAT(?, ' ', flights.departure_time), departureAirport.timezone, 'UTC') >= CONVERT_TZ(CONCAT(?, ' ', CURTIME()), departureAirport.timezone, 'UTC')", [$data['depart'], $data['depart']])
             ->join('flights as openjaw', 'openjaw.arrival_airport_id', '=', 'flights.departure_airport_id')
             ->where('openjaw.departure_airport_id', '<>', $data['arrival'])
             ->join('airports as openjaw_departureAirport', 'openjaw_departureAirport.id', '=', 'openjaw.departure_airport_id')
-//            ->whereRaw("CONVERT_TZ(CONCAT(?,' ',openjaw.departure_time), openjaw_departureAirport.timezone, 'UTC') >= CONVERT_TZ(CONCAT(?,' ',flights.arrival_time), arrivalAirport.timezone, 'UTC')",[$data['return'], $data['return']])
+            ->whereRaw("CONVERT_TZ(CONCAT(?,' ',openjaw.departure_time), openjaw_departureAirport.timezone, 'UTC') >= CONVERT_TZ(CONCAT(?,' ',flights.arrival_time), arrivalAirport.timezone, 'UTC')",[$data['return'], $data['return']])
+//            ->whereRaw("CONVERT_TZ(CONCAT(?, ' ', flights.departure_time), departureAirport.timezone, 'UTC') >= CONVERT_TZ(CONCAT(?, ' ', CURTIME()), departureAirport.timezone, 'UTC')", [$data['depart'], $data['depart']])
 
             ->select('flights.*',
                 'openjaw.id as detail_id',
@@ -87,7 +87,7 @@ class Flight extends Model
             ->join('airports as arrivalAirport', 'flights.arrival_airport_id', '=', 'arrivalAirport.id')
             ->where('departureAirport.id', '=',$data['departure'])
             ->where('arrivalAirport.id', '=',$data['arrival'])
-            ->whereRaw("CONVERT_TZ(CONCAT(?, ' ', flights.departure_time), departureAirport.timezone, 'UTC') >= CONVERT_TZ(CONCAT(?, ' ', CURTIME()), departureAirport.timezone, 'UTC')", [$data['depart'], $data['depart']])
+//            ->whereRaw("CONVERT_TZ(CONCAT(?, ' ', flights.departure_time), departureAirport.timezone, 'UTC') >= CONVERT_TZ(CONCAT(?, ' ', CURTIME()), departureAirport.timezone, 'UTC')", [$data['depart'], $data['depart']])
             ->groupBy('flights.id')
             ->get();
     }

@@ -34,15 +34,21 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-
+                                <strong>Flight Number:</strong> {{ $trip['flight_number'] }}<br>
                                 <strong>Departure Airport:</strong> {{ $trip['departure_airport']['name'] }}<br>
                                 <strong>Arrival Airport:</strong> {{ $trip['arrival_airport']['name'] }}<br>
-                                <strong>Departure Date:</strong> {{ $trip['departure_time'] }}<br>
-                                <strong>Arrival Date:</strong> {{ $trip['arrival_time'] }}<br>
-                                <strong>Trip Type:</strong> {{$trip['type']}}<br>
-                                <strong>Trip Price:</strong> {{$trip['price']}}<br>
-                                <strong>Total Price:</strong> {{!empty($trip['sum_of_prices']) ? $trip['sum_of_prices'] : $trip['flights'][0]['price']}}<br>
-
+                                <strong>Departure Time:</strong> {{ $trip['departure_time'],'-'.$trip['departure_airport']['timezone'] }}<br>
+                                <strong>Arrival Time:</strong> {{ $trip['arrival_time'].'-'.$trip['arrival_airport']['timezone'] }}<br>
+                                <strong>Total Price:</strong> {{ $trip['price'] }}<br>
+                                @if(!empty($trip['detail_id']))
+                                    <hr>
+                                    <strong>Flight Number:</strong> {{ $trip['detail_flight_number'] }}<br>
+                                    <strong>Departure Airport:</strong> {{ $trip['detail_departure_airport_name'] }}<br>
+                                    <strong>Arrival Airport:</strong> {{ $trip['detail_arrival_airport_name'] }}<br>
+                                    <strong>Departure Time:</strong> {{ $trip['detail_departure_time'].'-'.$trip['detail_departure_airport_timezone'] }}<br>
+                                    <strong>Arrival Time:</strong> {{ $trip['detail_arrival_time'].'-'.$trip['detail_arrival_airport_timezone'] }}<br>
+                                    <strong>Total Price:</strong> {{ $trip['price'] }}<br>
+                                @endif
                             </div>
                             @if(!empty($trip['flights']))
                                 <div class="col-md-6">
