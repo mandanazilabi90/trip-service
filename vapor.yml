@@ -12,5 +12,4 @@ environments:
 
 #        deploy:
 #          - 'php artisan migrate:fresh --force'
-#          - 'php artisan migrate --force'
 #          - 'php artisan db:seed --force'
